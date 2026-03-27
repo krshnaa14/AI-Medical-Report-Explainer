@@ -1,66 +1,95 @@
-# AI-Medical-Report-Explainer
->> ⚠️ **Important:** You need a **Groq API key** to run this app. Groq offers a **free API key** — no subscription required. Make sure to sign up and add your key in `config.py` or `app.py` before running the app.
+## 🧠 AI Medical Report Explainer
 
-AI-powered medical report explainer with OCR, RAG-based context retrieval, and a ChatGPT-style chat interface. Upload a medical report (PDF or image), get an AI-generated explanation, and interact via chat for follow-up questions.
+This project is a simple AI tool that helps users understand medical reports.
+You can upload a PDF or image, and it will extract the text, analyze it, and explain it in an easy-to-understand way.
 
----
+It also has a chat feature so you can ask follow-up questions about your report.
 
-## Features
+## 🚀 What it does 
 
-- Upload medical reports in **PDF, PNG, JPG, JPEG** formats.
-- OCR-based text extraction for scanned reports.
-- Retrieval-Augmented Generation (RAG) for relevant context.
-- AI-generated explanations including:
-  1. Key Findings
-  2. What It Means
-  3. Severity
-  4. Recommended Next Steps
-  5. Simple Summary
-- Interactive chat interface to ask questions about your report.
-- Clear chat button to reset the conversation.
+Upload medical reports (PDF, PNG, JPG, JPEG)
+Extracts text using OCR (Tesseract)
+Uses RAG to get better context before generating answers
+Gives structured output like:
+Key Findings
+What it means
+Severity
+Next steps
+Simple summary
+Chat interface to ask more questions
+Option to clear chat and start fresh
 
----
+## 🧠 How it works (high-level)
 
-## Setup / API Key
+Basically the flow is:
 
-This project requires the **Groq API** for AI completions.  
+Upload → OCR → clean text → split into chunks → convert to embeddings → store → retrieve relevant parts → send to LLM → generate answer
 
-1. Sign up for a Groq account: [https://console.groq.com/keys](https://console.groq.com/keys) Groq offers a free API key — no subscription required 
-2. Create a **Groq API Key**.  
-3. Set your API key in `config.py` (or directly in `app.py` for testing):
-# config.py
+I used RAG here so the model doesn’t just guess and instead uses actual content from the report.
+
+# 📦 RAG details
+Chunk size is around 300–500 tokens
+Retrieves top 3–5 relevant chunks
+Uses embeddings + vector search (FAISS/Chroma)
+Then passes that context to the LLM (Groq)
+
+# ⚙️ Why I built it this way
+Used Groq API because it’s fast for chat-based apps
+Added OCR since many reports are scanned images
+Used structured output so it’s easier to read instead of a big paragraph
+Added chat so users can interact instead of just getting one response
+
+# 🛠️ Tech stack
+Python
+Streamlit
+Groq API
+Tesseract OCR
+FAISS / Chroma
+
+# 🔑 Setup
+
+You’ll need a Groq API key (it’s free).
+
+Go to: https://console.groq.com/keys
+Create a key
+Add it in config.py:
 GROQ_API_KEY = "your_api_key_here"
 
-# Install Tesseract OCR and make sure the path is correct:
-In app.py
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-#Install dependencies:
+Install dependencies:
+
 pip install -r requirements.txt
 
-# Usage
-Run the Streamlit app:
-(streamlit run app.py) 
-Upload a medical report (PDF or image).
-Wait for the AI explanation to appear.
-Use the chat interface to ask follow-up questions.
-Click the “🗑 Clear Chat” button to reset the conversation.
+Install Tesseract and set path in app.py:
 
-# Sample Reports
-Use the assets/ folder for sample PDFs and images to test.
-OCR may occasionally misread numbers in scanned reports. Verify critical values manually.
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
-# Limitations
-Requires a Groq API Key to function.
-OCR results may vary depending on report quality.
-AI explanations are for educational purposes only; not a substitute for professional medical advice.
+▶️ Run the app
+streamlit run app.py
 
-# License
-This project is licensed under the MIT License.
+Then:
+Upload a report
+Wait for explanation
+Ask questions in chat
 
+# ⚠️ Limitations
+OCR is not perfect (especially for low-quality scans)
+Sometimes numbers might be slightly off
+LLM can still make mistakes
+Not meant for real medical decisions
 
+# 🔮 Things I’d improve later
+Add citations for answers
+Improve OCR accuracy
+Add confidence scores
+Maybe deploy it as a proper web app
 
+# 📄 License
 
+MIT License
 
+# 🎥 Demo
+
+(I’ll add a demo video or screenshots here soon)
 
 
 
