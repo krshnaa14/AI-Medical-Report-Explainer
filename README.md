@@ -30,7 +30,7 @@ I used RAG here so the model doesn’t just guess and instead uses actual conten
 # 📦 RAG details
 Chunk size is around 300–500 tokens
 Retrieves top 3–5 relevant chunks
-Uses embeddings + vector search (FAISS/Chroma)
+Uses embeddings + vector search (FAISS)
 Then passes that context to the LLM (Groq)
 
 # ⚙️ Why I built it this way
